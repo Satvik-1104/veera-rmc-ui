@@ -547,3 +547,26 @@
     border-right: none;
   }
 }
+
+@media (max-width: 768px) {
+
+  /* HERO LAYOUT */
+  .aboutpage-hero-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  /* HIDE HERO IMAGE ON MOBILE */
+  .aboutpage-hero-image {
+    display: none;
+  }
+
+  .aboutpage-title {
+    font-size: 34px;
+    line-height: 1.2;
+  }
+
+  .aboutpage-text {
+    max-width: 100%;
+  }
+}
