@@ -1,4 +1,7 @@
 import "./Services.css";
+import readyMix from "../../assets/services/ready-mix.jpg";
+import technical from "../../assets/services/technical.jpg";
+import transport from "../../assets/services/transport.jpg";
 
 export default function Services() {
   return (
@@ -18,10 +21,7 @@ export default function Services() {
           {/* CARD 1 */}
           <div className="service-card reveal delay-1">
             <div className="service-image">
-              <img
-                src="/src/assets/services/ready-mix.jpg"
-                alt="Ready Mix Concrete"
-              />
+              <img src={readyMix} alt="Ready Mix Concrete" />
               <span className="service-icon red">📦</span>
             </div>
 
@@ -41,10 +41,7 @@ export default function Services() {
           {/* CARD 2 */}
           <div className="service-card reveal delay-2">
             <div className="service-image">
-              <img
-                src="/src/assets/services/technical.jpg"
-                alt="Technical Capabilities"
-              />
+              <img src={technical} alt="Technical Capabilities" />
               <span className="service-icon purple">🛠️</span>
             </div>
 
@@ -64,10 +61,7 @@ export default function Services() {
           {/* CARD 3 */}
           <div className="service-card reveal delay-3">
             <div className="service-image">
-              <img
-                src="/src/assets/services/transport.jpg"
-                alt="Transport and Pumping"
-              />
+              <img src={transport} alt="Transport and Pumping" />
               <span className="service-icon orange">🚚</span>
             </div>
 
