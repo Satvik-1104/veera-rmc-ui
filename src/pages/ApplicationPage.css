@@ -1,0 +1,125 @@
+/* ================= APPLICATION HERO ================= */
+
+.application-hero {
+  height: 340px;
+  background: url("/contact-banner.jpg") center / cover no-repeat;
+  position: relative;
+}
+
+.application-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.55)
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  /* 👇 ADD THIS */
+  padding-top: 60px;
+}
+
+.application-hero-overlay h1 {
+  color: #ffffff;
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+}
+
+/* Red underline accent */
+.application-hero-overlay h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--primary);
+  margin: 16px auto 0;
+  border-radius: 4px;
+}
+
+/* ================= APPLICATION FORM SECTION ================= */
+
+.application-form {
+  background: #ffffff;
+}
+
+.application-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+/* FORM BOX */
+.application-form-box {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 520px;
+}
+
+.application-form-box label {
+  font-size: 14px;
+  color: #444;
+}
+
+.application-form-box input,
+.application-form-box textarea {
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+}
+
+.application-form-box input:focus,
+.application-form-box textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.12);
+}
+
+/* INFO SIDE */
+.application-info p {
+  line-height: 1.7;
+  color: #555;
+}
+
+.application-info h4 {
+  margin-top: 24px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+.application-info .location {
+  font-size: 18px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 900px) {
+  .application-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .application-hero {
+    height: 260px;
+  }
+
+  .application-hero-overlay {
+    padding-top: 30px;
+  }
+  
+  .application-hero-overlay h1 {
+    font-size: 36px;
+    letter-spacing: 1px;
+  }
+}
