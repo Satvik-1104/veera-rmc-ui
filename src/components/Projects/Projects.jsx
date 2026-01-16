@@ -72,14 +72,11 @@ export default function Projects() {
     <section className="projects section" id="projects">
       <div className="container">
         {/* HEADER */}
-        <div className="projects-header reveal">
-          <span className="projects-pill">Our Portfolio</span>
-
-          <h2 className="projects-title">Our Projects</h2>
-
-          <p className="projects-subtitle">
-            Building landmarks across Hyderabad
-          </p>
+        <div className="section-header reveal">
+          <span className="section-pill">Our Portfolio</span>
+          <h2>Our Projects</h2>
+          <p className="section-subtitle">Building landmarks across Hyderabad</p>
+          <span className="section-underline" />
         </div>
 
         {/* GRID */}

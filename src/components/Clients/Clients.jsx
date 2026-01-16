@@ -86,13 +86,12 @@ export default function Clients() {
     <section className="clients section" id="clients">
       <div className="container">
         {/* HEADER */}
-        <div className="clients-header reveal">
-          <span className="clients-pill">Trusted Partners</span>
+        <div className="section-header reveal">
+          <span className="section-pill">Trusted Partners</span>
           <h2>Our Clients</h2>
-          <p>
-            We are trusted by leading developers, institutions, and
-            infrastructure partners.
-          </p>
+          <p className="section-subtitle">We are trusted by leading developers, institutions, and
+            infrastructure partners.</p>
+          <span className="section-underline" />
         </div>
 
         {/* DESKTOP SLIDER */}

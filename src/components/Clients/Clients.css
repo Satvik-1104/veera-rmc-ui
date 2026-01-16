@@ -551,14 +551,65 @@
     height: 100px;
   }
 
-  /* Simplify animations on mobile */
+  /* Mobile wave entrance animation */
   .client-logo {
-    transform: translateY(40px) scale(0.9);
+    opacity: 0;
+    transform: translateX(-100px) scale(0.6);
+    filter: blur(4px);
+    transition: 
+      opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+      transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+      filter 0.6s ease;
   }
 
   .client-logo.reveal.active {
-    transform: translateY(0) scale(1);
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+    animation: mobileWaveFloat 4s ease-in-out infinite;
   }
+
+  /* Alternating wave pattern for mobile */
+  .client-logo:nth-child(odd) {
+    transform: translateX(-100px) scale(0.6);
+  }
+  
+  .client-logo:nth-child(even) {
+    transform: translateX(100px) scale(0.6);
+  }
+
+  /* Wave entrance delays */
+  .client-logo:nth-child(1) { transition-delay: 0s; }
+  .client-logo:nth-child(2) { transition-delay: 0.1s; }
+  .client-logo:nth-child(3) { transition-delay: 0.15s; }
+  .client-logo:nth-child(4) { transition-delay: 0.25s; }
+  .client-logo:nth-child(5) { transition-delay: 0.3s; }
+  .client-logo:nth-child(6) { transition-delay: 0.4s; }
+  .client-logo:nth-child(n+7) { transition-delay: 0.2s; }
+
+  /* Continuous wave floating animation for mobile */
+  @keyframes mobileWaveFloat {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    25% {
+      transform: translateY(-8px) scale(1.05);
+    }
+    50% {
+      transform: translateY(0) scale(1);
+    }
+    75% {
+      transform: translateY(8px) scale(0.98);
+    }
+  }
+
+  /* Stagger the continuous float animation */
+  .client-logo.reveal.active:nth-child(1) { animation-delay: 0s; }
+  .client-logo.reveal.active:nth-child(2) { animation-delay: 0.5s; }
+  .client-logo.reveal.active:nth-child(3) { animation-delay: 1s; }
+  .client-logo.reveal.active:nth-child(4) { animation-delay: 1.5s; }
+  .client-logo.reveal.active:nth-child(5) { animation-delay: 2s; }
+  .client-logo.reveal.active:nth-child(6) { animation-delay: 2.5s; }
 }
 
 @media (max-width: 480px) {

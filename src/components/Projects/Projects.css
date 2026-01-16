@@ -164,7 +164,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
   position: relative;
-  perspective: 1400px;
+  perspective: 1600px;
 }
 
 /* ---------- CARD ---------- */
@@ -180,6 +180,8 @@
   transition: 
     transform 1.1s cubic-bezier(0.22, 1.4, 0.36, 1),
     box-shadow 0.5s ease;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
 
 /* Animated shine effect */
@@ -278,7 +280,7 @@
 .project-card.reveal.active .project-status {
   opacity: 1;
   transform: translateY(0) scale(1);
-  transition-delay: 0.3s;
+  transition-delay: 0.6s;
 }
 
 /* Tag pulse animation */
@@ -295,7 +297,7 @@
 
 .project-card.reveal.active .project-status {
   animation: pulseTag 3s ease-in-out infinite;
-  animation-delay: 1s;
+  animation-delay: 1.5s;
 }
 
 /* ---------- ALWAYS VISIBLE INFO ---------- */
@@ -387,63 +389,111 @@
 
 .project-card {
   opacity: 0;
-  transform: translateY(140px) translateX(-60px) rotateY(-55deg) rotateX(35deg) rotateZ(-12deg) scale(0.62);
-  filter: blur(8px);
-  transform-style: preserve-3d;
-  transition: 
-    opacity 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
-    transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1),
-    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+  transform:
+    translateY(80px)
+    rotateX(35deg)
+    rotateY(-8deg)
+    scale(0.88);
+  filter: blur(6px);
+  transform-origin: center;
+
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.8s ease,
     box-shadow 0.5s ease;
 }
 
 .project-card.reveal.active {
   opacity: 1;
-  transform: translateY(0) translateX(0) rotateY(0) rotateX(0) scale(1);
+  transform:
+    translateY(0)
+    rotateX(0)
+    rotateY(0)
+    scale(1);
   filter: blur(0);
+  animation: 
+    cardFlipIn_projects 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+    cardFloat 7s ease-in-out infinite 1.5s;
 }
 
-/* Enhanced stagger with spiral/wave effect */
-.project-card:nth-child(1) { 
-  transition-delay: 0.1s;
-  transform: translateY(120px) translateX(-90px) rotateY(-45deg) rotateX(25deg) rotateZ(-10deg) scale(0.6);
+/* Card flip-in keyframes - Sideways spin entrance */
+@keyframes cardFlipIn_projects {
+  0% {
+    opacity: 0;
+    transform:
+      perspective(1400px)
+      translateX(-200px)
+      translateY(100px)
+      rotateY(-120deg)
+      rotateZ(-15deg)
+      scale(0.4);
+    filter: blur(12px);
+  }
+
+  40% {
+    opacity: 0.7;
+    transform:
+      perspective(1400px)
+      translateX(30px)
+      translateY(-20px)
+      rotateY(25deg)
+      rotateZ(8deg)
+      scale(1.15);
+    filter: blur(3px);
+  }
+
+  70% {
+    transform:
+      perspective(1400px)
+      translateX(-15px)
+      translateY(8px)
+      rotateY(-12deg)
+      rotateZ(-3deg)
+      scale(0.95);
+    filter: blur(1px);
+  }
+
+  100% {
+    opacity: 1;
+    transform:
+      perspective(1400px)
+      translateX(0)
+      translateY(0)
+      rotateY(0)
+      rotateZ(0)
+      scale(1);
+    filter: blur(0);
+  }
 }
-.project-card:nth-child(2) { 
-  transition-delay: 0.25s;
-  transform: translateY(140px) translateX(0) rotateY(35deg) rotateX(-20deg) scale(0.65);
+
+/* More noticeable floating animation with tilt */
+@keyframes cardFloat {
+  0%, 100% { 
+    transform: translateY(0) rotateZ(0deg) scale(1); 
+  }
+  25% {
+    transform: translateY(-12px) rotateZ(1deg) scale(1.02);
+  }
+  50% { 
+    transform: translateY(-18px) rotateZ(-1deg) scale(1.03); 
+  }
+  75% {
+    transform: translateY(-12px) rotateZ(1deg) scale(1.02);
+  }
 }
-.project-card:nth-child(3) { 
-  transition-delay: 0.4s;
-  transform: translateY(120px) translateX(90px) rotateY(45deg) rotateX(20deg) rotateZ(10deg) scale(0.6);
-}
-.project-card:nth-child(4) { 
-  transition-delay: 0.2s;
-  transform: translateY(130px) translateX(-70px) rotateY(-35deg) rotateX(20deg) scale(0.65);
-}
-.project-card:nth-child(5) { 
-  transition-delay: 0.35s;
-  transform: translateY(150px) rotateX(35deg) rotateY(-20deg) scale(0.6);
-}
-.project-card:nth-child(6) { 
-  transition-delay: 0.5s;
-  transform: translateY(130px) translateX(70px) rotateY(35deg) rotateX(-25deg) scale(0.65);
-}
-.project-card:nth-child(7) { 
-  transition-delay: 0.3s;
-  transform: translateY(140px) translateX(-50px) rotateY(-25deg) rotateX(-25deg) scale(0.6);
-}
-.project-card:nth-child(8) { 
-  transition-delay: 0.45s;
-  transform: translateY(160px) rotateX(-20deg) rotateY(35deg) scale(0.65);
-}
-.project-card:nth-child(9) { 
-  transition-delay: 0.6s;
-  transform: translateY(140px) translateX(50px) rotateY(25deg) rotateX(20deg) scale(0.6);
-}
-.project-card:nth-child(n+10) { 
-  transition-delay: 0.35s;
-  transform: translateY(130px) rotateX(20deg) rotateY(-15deg) scale(0.65);
-}
+
+/* Enhanced stagger with different delays */
+.project-card:nth-child(1) { transition-delay: 0s; }
+.project-card:nth-child(2) { transition-delay: 0.1s; }
+.project-card:nth-child(3) { transition-delay: 0.2s; }
+.project-card:nth-child(4) { transition-delay: 0.08s; }
+.project-card:nth-child(5) { transition-delay: 0.18s; }
+.project-card:nth-child(6) { transition-delay: 0.28s; }
+.project-card:nth-child(7) { transition-delay: 0.15s; }
+.project-card:nth-child(8) { transition-delay: 0.25s; }
+.project-card:nth-child(9) { transition-delay: 0.35s; }
+.project-card:nth-child(n+10) { transition-delay: 0.2s; }
 
 /* Content animations */
 .project-info h4,
@@ -587,20 +637,14 @@
   }
 
   .project-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) rotateX(2deg);
   }
 
-  /* Simplify animations on mobile */
-  .project-card {
-    transform: translateY(50px) scale(0.9);
-  }
-
+  /* Keep flip animation on mobile */
   .project-card.reveal.active {
-    transform: translateY(0) scale(1);
-  }
-  
-  .project-card:nth-child(n) {
-    transform: translateY(50px) scale(0.9);
+    animation: 
+      cardFlipIn_projects 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+      cardFloat 7s ease-in-out infinite 1.5s;
   }
 }
 

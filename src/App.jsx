@@ -9,6 +9,13 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
+    /* ================= SCROLL TO TOP ON ROUTE CHANGE ================= */
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    /* ================= REVEAL ANIMATIONS ================= */
     const elements = document.querySelectorAll(".reveal");
 
     const observer = new IntersectionObserver(
@@ -16,7 +23,7 @@ function App() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("active");
-            observer.unobserve(entry.target);
+            observer.unobserve(entry.target); // animate once
           }
         });
       },
@@ -26,7 +33,7 @@ function App() {
     elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [location.pathname]); // 🔥 THIS IS THE KEY
+  }, [location.pathname]); // 🔥 route change trigger
 
   return (
     <Routes>

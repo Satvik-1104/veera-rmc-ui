@@ -8,12 +8,11 @@ export default function Services() {
     <section className="services section" id="services">
       <div className="container">
         {/* HEADER */}
-        <div className="services-header reveal">
-          <span className="services-pill">What We Offer</span>
-
-          <h2 className="services-title">Our Services</h2>
-
-          <p className="services-subtitle">Products and Services</p>
+        <div className="section-header reveal">
+          <span className="section-pill">What We Offer</span>
+          <h2>Our Services</h2>
+          <p className="section-subtitle">Products and Services</p>
+          <span className="section-underline" />
         </div>
 
         {/* CARDS */}
