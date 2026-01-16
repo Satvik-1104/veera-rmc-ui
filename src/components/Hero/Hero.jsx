@@ -27,11 +27,11 @@ export default function Hero() {
 
           <div className="hero-actions reveal delay-4">
             <a href="#services" className="btn-primary">
-              Our Services
+              Our Services <span className="btn-arrow">→</span>
             </a>
 
             <a href="#contact" className="btn-outline">
-              Get Started
+              Get Started <span className="btn-arrow">→</span>
             </a>
           </div>
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Projects.css";
 
 import p1 from "../../assets/projects/p1.jpg";
@@ -46,6 +46,28 @@ const PROJECTS = [
 export default function Projects() {
   const [visible, setVisible] = useState(6);
 
+  useEffect(() => {
+    const handleReveal = () => {
+      const reveals = document.querySelectorAll(".reveal");
+
+      reveals.forEach((element) => {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const revealPoint = 100;
+
+        if (elementTop < windowHeight - revealPoint) {
+          element.classList.add("active");
+        }
+      });
+    };
+
+    // Run on mount and scroll
+    handleReveal();
+    window.addEventListener("scroll", handleReveal);
+
+    return () => window.removeEventListener("scroll", handleReveal);
+  }, [visible]); // Re-run when visible changes to animate new cards
+
   return (
     <section className="projects section" id="projects">
       <div className="container">
@@ -60,11 +82,10 @@ export default function Projects() {
           </p>
         </div>
 
-
         {/* GRID */}
         <div className="projects-grid">
           {PROJECTS.slice(0, visible).map((title, index) => (
-            <div className="project-card" key={index}>
+            <div className="project-card reveal" key={index}>
               <img
                 src={IMAGES[index % IMAGES.length]}
                 alt={title}
@@ -93,7 +114,7 @@ export default function Projects() {
 
         {/* SHOW MORE */}
         {visible < PROJECTS.length && (
-          <div className="projects-more">
+          <div className="projects-more reveal">
             <button onClick={() => setVisible(18)}>
               View More Projects
             </button>

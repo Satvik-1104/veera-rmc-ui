@@ -57,6 +57,28 @@ export default function Clients() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  useEffect(() => {
+    const handleReveal = () => {
+      const reveals = document.querySelectorAll(".reveal");
+
+      reveals.forEach((element) => {
+        const windowHeight = window.innerHeight;
+        const elementTop = element.getBoundingClientRect().top;
+        const revealPoint = 100;
+
+        if (elementTop < windowHeight - revealPoint) {
+          element.classList.add("active");
+        }
+      });
+    };
+
+    // Run on mount and scroll
+    handleReveal();
+    window.addEventListener("scroll", handleReveal);
+
+    return () => window.removeEventListener("scroll", handleReveal);
+  }, [showAll]); // Re-run when showAll changes to animate new logos
+
   const visibleClients =
     isMobile && !showAll ? CLIENTS.slice(0, 6) : CLIENTS;
 
@@ -75,7 +97,7 @@ export default function Clients() {
 
         {/* DESKTOP SLIDER */}
         {!isMobile && !showAll && (
-          <div className="clients-slider">
+          <div className="clients-slider reveal">
             <div className="clients-track">
               {[...CLIENTS, ...CLIENTS].map((logo, index) => (
                 <div className="client-logo" key={index}>
@@ -90,7 +112,7 @@ export default function Clients() {
         {(isMobile || showAll) && (
           <div className="clients-grid">
             {visibleClients.map((logo, index) => (
-              <div className="client-logo" key={index}>
+              <div className="client-logo reveal" key={index}>
                 <img src={logo} alt="Client logo" />
               </div>
             ))}
@@ -99,7 +121,7 @@ export default function Clients() {
 
         {/* VIEW ALL BUTTON */}
         {!showAll && (
-          <div className="clients-more">
+          <div className="clients-more reveal">
             <button onClick={() => setShowAll(true)}>
               View All Clients
             </button>

@@ -19,7 +19,7 @@ export default function Services() {
         {/* CARDS */}
         <div className="services-grid">
           {/* CARD 1 */}
-          <div className="service-card reveal delay-1">
+          <div className="service-card red reveal delay-1">
             <div className="service-image">
               <img src={readyMix} alt="Ready Mix Concrete" />
               <span className="service-icon red">📦</span>
@@ -33,13 +33,13 @@ export default function Services() {
               </p>
 
               <a className="learn-more red" href="#">
-                Learn More →
+                <span className="learn-text">Learn More</span>
               </a>
             </div>
           </div>
 
           {/* CARD 2 */}
-          <div className="service-card reveal delay-2">
+          <div className="service-card purple reveal delay-2">
             <div className="service-image">
               <img src={technical} alt="Technical Capabilities" />
               <span className="service-icon purple">🛠️</span>
@@ -53,13 +53,13 @@ export default function Services() {
               </p>
 
               <a className="learn-more purple" href="#">
-                Learn More →
+                <span className="learn-text">Learn More</span>
               </a>
             </div>
           </div>
 
           {/* CARD 3 */}
-          <div className="service-card reveal delay-3">
+          <div className="service-card orange reveal delay-3">
             <div className="service-image">
               <img src={transport} alt="Transport and Pumping" />
               <span className="service-icon orange">🚚</span>
@@ -73,7 +73,7 @@ export default function Services() {
               </p>
 
               <a className="learn-more orange" href="#">
-                Learn More →
+                <span className="learn-text">Learn More</span>
               </a>
             </div>
           </div>

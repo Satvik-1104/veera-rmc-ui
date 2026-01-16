@@ -7,7 +7,8 @@
   color: white;
 }
 
-/* animated red gradient background */
+/* ---------- BACKGROUND ---------- */
+
 .contact-bg {
   position: absolute;
   inset: 0;
@@ -17,8 +18,9 @@
     #d32f2f,
     #8e0000
   );
+  background-size: 200% 200%;
   animation: gradientMove 12s ease infinite;
-  z-index: -1;
+  z-index: -2;
 }
 
 @keyframes gradientMove {
@@ -27,13 +29,64 @@
   100% { background-position: 0% 50%; }
 }
 
-/* inner */
+/* Energy wave */
+.contact-bg::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255,255,255,0.08),
+    transparent 35%,
+    rgba(255,255,255,0.05),
+    transparent 70%
+  );
+  animation: energySpin 18s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes energySpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- INNER ---------- */
+
 .contact-cta-inner {
   text-align: center;
   max-width: 960px;
 }
 
-/* pill */
+/* ---------- HEADER ---------- */
+
+.contact-cta-header {
+  transform-origin: center;
+}
+
+.contact-cta-header.reveal {
+  opacity: 0;
+  transform:
+    perspective(1200px)
+    translateY(100px)
+    rotateX(35deg)
+    scale(0.9);
+  filter: blur(12px);
+}
+
+.contact-cta-header.reveal.active {
+  opacity: 1;
+  transform:
+    perspective(1200px)
+    translateY(0)
+    rotateX(0)
+    scale(1);
+  filter: blur(0);
+  transition:
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.8s ease,
+    filter 0.8s ease;
+}
+
+/* Pill */
 .contact-cta-pill {
   display: inline-block;
   padding: 8px 20px;
@@ -43,7 +96,7 @@
   margin-bottom: 24px;
 }
 
-/* headings */
+/* Headings */
 .contact-cta-header h2 {
   font-size: 56px;
   font-weight: 700;
@@ -64,7 +117,8 @@
   opacity: 0.9;
 }
 
-/* buttons */
+/* ---------- CTA BUTTONS ---------- */
+
 .contact-cta-actions {
   margin-top: 40px;
   display: flex;
@@ -72,38 +126,69 @@
   justify-content: center;
 }
 
+.cta-primary,
+.cta-secondary {
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.25s ease;
+}
+
+/* Primary */
 .cta-primary {
   background: white;
   color: #b71c1c;
   padding: 14px 28px;
-  border-radius: 12px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: ctaPulse 4s ease-in-out infinite;
+}
+
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+  50% { box-shadow: 0 0 40px rgba(255,255,255,0.35); }
+}
+
+.cta-primary::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(
+    circle,
+    rgba(255,255,255,0.4),
+    transparent 60%
+  );
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.cta-primary:hover::after {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .cta-primary:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 32px rgba(0,0,0,0.25);
+  transform: translateY(-6px) scale(1.05);
 }
 
+/* Secondary */
 .cta-secondary {
   background: transparent;
   color: white;
   border: 2px solid rgba(255,255,255,0.8);
   padding: 14px 26px;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.25s ease, transform 0.25s ease;
 }
 
 .cta-secondary:hover {
   background: rgba(255,255,255,0.15);
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.05);
 }
 
-/* contact cards */
+/* ---------- CONTACT CARDS ---------- */
+
 .contact-cards {
   margin-top: 56px;
   display: grid;
@@ -111,36 +196,75 @@
   gap: 28px;
 }
 
+/* Materialize animation */
 .contact-card {
   background: rgba(255,255,255,0.14);
   backdrop-filter: blur(10px);
   padding: 32px;
   border-radius: 20px;
-  transition: transform 0.3s ease, background 0.3s ease;
   text-decoration: none;
   color: white;
   cursor: pointer;
+
+  opacity: 0;
+  transform:
+    translateY(80px)
+    rotateX(40deg)
+    scale(0.85);
+  filter: blur(10px);
 }
 
+.contact-cards.reveal.active .contact-card {
+  opacity: 1;
+  transform:
+    translateY(0)
+    rotateX(0)
+    scale(1);
+  filter: blur(0);
+  transition:
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.7s ease,
+    filter 0.7s ease;
+}
+
+/* stagger */
+.contact-cards.reveal.active .contact-card:nth-child(1) { transition-delay: 0.1s; }
+.contact-cards.reveal.active .contact-card:nth-child(2) { transition-delay: 0.25s; }
+.contact-cards.reveal.active .contact-card:nth-child(3) { transition-delay: 0.4s; }
+
+/* Hover */
+.contact-card:hover {
+  transform: translateY(-12px) scale(1.05);
+  background: rgba(255,255,255,0.22);
+}
+
+/* Icon */
 .contact-card span {
   font-size: 34px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14px;
-  color: #ffffff;
-  opacity: 1;
-
-  /* subtle glow so it never disappears */
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-
   width: 56px;
   height: 56px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255,255,255,0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto 16px;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  animation: iconFloat 3.5s ease-in-out infinite;
 }
 
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.1); }
+}
+
+.contact-card:hover span {
+  animation: iconBurst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes iconBurst {
+  50% { transform: scale(1.4) rotate(-8deg); }
+}
 
 .contact-card h5 {
   font-size: 18px;
@@ -151,21 +275,7 @@
   opacity: 0.9;
 }
 
-.contact-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  background: rgba(255,255,255,0.22);
-}
-
-.contact-card:hover span {
-  background: rgba(255, 255, 255, 0.28);
-  transform: scale(1.08);
-}
-
-.contact-card:active {
-  transform: translateY(-6px) scale(0.98);
-}
-
-/* ================= MOBILE ================= */
+/* ---------- MOBILE ---------- */
 
 @media (max-width: 768px) {
   .contact-cta {
@@ -186,6 +296,24 @@
 
   .contact-cards {
     grid-template-columns: 1fr;
-    margin-top: 56px;
+  }
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-bg,
+  .contact-bg::before,
+  .contact-card,
+  .contact-card span,
+  .cta-primary {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .contact-card {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }

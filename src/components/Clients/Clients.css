@@ -3,7 +3,50 @@
 ========================================================= */
 
 .clients {
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.clients.section {
+  padding-top: 80px;
+}
+
+/* Animated background elements */
+.clients::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: -12%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(198, 40, 40, 0.04), transparent 70%);
+  border-radius: 50%;
+  animation: floatBg1 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.clients::after {
+  content: "";
+  position: absolute;
+  bottom: 15%;
+  right: -10%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(198, 40, 40, 0.05), transparent 70%);
+  border-radius: 50%;
+  animation: floatBg2 18s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes floatBg1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(1.1); }
+}
+
+@keyframes floatBg2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-35px, 35px) scale(1.12); }
 }
 
 /* ---------- HEADER ---------- */
@@ -11,42 +54,107 @@
 .clients-header {
   text-align: center;
   max-width: 640px;
-  margin: 0 auto 72px; /* match projects */
+  margin: 0 auto 72px;
+  position: relative;
 }
 
 .clients-pill {
   display: inline-block;
-  padding: 8px 18px;
+  padding: 10px 20px;
   background: rgba(198, 40, 40, 0.12);
   color: var(--primary);
   border-radius: 999px;
   font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(198, 40, 40, 0.15);
+}
+
+/* Pill shimmer */
+.clients-pill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(198, 40, 40, 0.3),
+    transparent
+  );
+  animation: pillShimmer 6s ease-in-out infinite;
+  opacity: 0.4;
+  animation-delay: 1s;
+}
+
+@keyframes pillShimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
 }
 
 .clients-header h2 {
   font-size: 42px;
   line-height: 1.2;
-  color: #5b2b1c; /* same as projects title */
+  color: #1a1a1a;
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+}
+
+/* Animated gradient text */
+.clients-header h2::before {
+  content: "Our Clients";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    var(--primary),
+    #ff6b6b,
+    var(--primary)
+  );
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  animation: gradientText 6s ease infinite;
+}
+
+.clients-header.reveal.active h2::before {
+  opacity: 0.8;
+}
+
+@keyframes gradientText {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .clients-header p {
-  margin-top: 12px;
+  margin-top: 16px;
   font-size: 16px;
-  color: #5b2b1c;
+  color: #666;
   position: relative;
+  font-weight: 500;
 }
 
-/* underline like projects */
+/* Animated underline */
 .clients-header p::after {
   content: "";
   display: block;
-  width: 60px;
+  width: 0;
   height: 3px;
-  background: var(--primary);
-  opacity: 0.9;
-  margin: 16px auto 0;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  margin: 20px auto 0;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.clients-header.reveal.active p::after {
+  width: 80px;
 }
 
 /* ---------- GRID ---------- */
@@ -57,6 +165,7 @@
   gap: 18px;
   align-items: center;
   justify-items: center;
+  perspective: 1200px;
 }
 
 /* ---------- LOGO CARD ---------- */
@@ -69,79 +178,133 @@
   background: #ffffff;
   border-radius: 14px;
   padding: 16px;
+  width: 100%;
+  height: 120px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
 
   transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.4s ease,
+    border-color 0.3s ease;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shine effect on logo card */
+.client-logo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%) skewX(-20deg);
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.client-logo:hover::before {
+  transform: translateX(120%) skewX(-20deg);
+}
+
+.client-logo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 rgba(198, 40, 40, 0);
+  transition: box-shadow 0.4s ease;
+  pointer-events: none;
+}
+
+.client-logo:hover::after {
+  box-shadow: 0 0 24px rgba(198, 40, 40, 0.15);
 }
 
 .client-logo img {
   max-width: 100%;
   max-height: 84px;
   object-fit: contain;
-  transition: transform 0.25s ease;
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.4s ease;
+  filter: none; /* FULL COLOR BY DEFAULT */
+  position: relative;
+  z-index: 2;
 }
 
-/* premium hover */
+/* Premium hover */
 .client-logo:hover {
-  transform: translateY(-4px) scale(1.06);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  transform: translateY(-10px) scale(1.1) rotateX(6deg) rotateZ(1deg);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(198, 40, 40, 0.15);
+  border-color: rgba(198, 40, 40, 0.25);
 }
 
 .client-logo:hover img {
-  transform: scale(1.05);
+  transform: scale(1.1);
+  filter: grayscale(0%) opacity(1);
 }
 
-.clients-more {
-  margin-top: 48px;
-  text-align: center;
+/* Reveal animations for grid logos */
+.client-logo {
+  opacity: 0;
+  transform: translateY(60px) rotateX(45deg) scale(0.7);
+  filter: blur(6px);
+  transition: 
+    opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+    filter 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s ease;
 }
 
-.clients-more button {
-  background: linear-gradient(135deg, #e53935, #b71c1c);
-  color: white;
-  padding: 14px 36px;
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-
-  box-shadow:
-    0 10px 24px rgba(198, 40, 40, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+.client-logo.reveal.active {
+  opacity: 1;
+  transform: translateY(0) rotateX(0) scale(1);
+  filter: blur(0);
 }
 
-.clients-more button:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 16px 36px rgba(198, 40, 40, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+/* Staggered entrance - spiral pattern */
+.client-logo:nth-child(1) { transition-delay: 0.05s; }
+.client-logo:nth-child(2) { transition-delay: 0.1s; }
+.client-logo:nth-child(3) { transition-delay: 0.15s; }
+.client-logo:nth-child(4) { transition-delay: 0.2s; }
+.client-logo:nth-child(5) { transition-delay: 0.25s; }
+.client-logo:nth-child(6) { transition-delay: 0.3s; }
+.client-logo:nth-child(7) { transition-delay: 0.08s; }
+.client-logo:nth-child(8) { transition-delay: 0.13s; }
+.client-logo:nth-child(9) { transition-delay: 0.18s; }
+.client-logo:nth-child(10) { transition-delay: 0.23s; }
+.client-logo:nth-child(11) { transition-delay: 0.28s; }
+.client-logo:nth-child(12) { transition-delay: 0.33s; }
+.client-logo:nth-child(13) { transition-delay: 0.11s; }
+.client-logo:nth-child(14) { transition-delay: 0.16s; }
+.client-logo:nth-child(15) { transition-delay: 0.21s; }
+.client-logo:nth-child(16) { transition-delay: 0.26s; }
+.client-logo:nth-child(17) { transition-delay: 0.31s; }
+.client-logo:nth-child(18) { transition-delay: 0.36s; }
+.client-logo:nth-child(n+19) { transition-delay: 0.15s; }
+
+/* Pop effect on reveal */
+@keyframes logoPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 1024px) {
-  .clients-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-  }
+.client-logo.reveal.active {
+  animation: logoPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@media (max-width: 768px) {
-  .clients-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 14px;
-  }
-
-  .clients-header h2 {
-    font-size: 34px;
-  }
-}
+/* ---------- SLIDER ---------- */
 
 .clients-slider {
   position: relative;
@@ -149,7 +312,6 @@
   width: 100%;
   margin-top: 24px;
 
-  /* edge fade */
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -165,6 +327,15 @@
     black 92%,
     transparent 100%
   );
+
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.clients-slider.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .clients-track {
@@ -175,7 +346,7 @@
 }
 
 .clients-slider:hover .clients-track {
-  animation-play-state: 90s;
+  animation-play-state: paused;
 }
 
 @keyframes scrollClients {
@@ -187,15 +358,184 @@
   }
 }
 
+/* Slider logo cards */
+.clients-slider .client-logo {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  min-width: 180px;
+  transition: 
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.4s ease;
+}
+
+.clients-slider .client-logo:hover {
+  transform: translateY(-8px) scale(1.08);
+}
+
+/* ---------- VIEW MORE BUTTON ---------- */
+
+.clients-more {
+  margin-top: 56px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: 
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.clients-more.reveal.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.clients-more button {
+  max-width: 100%;        /* ADD */
+  white-space: nowrap;   /* ADD */
+  box-sizing: border-box;/* ADD */
+
+  background: linear-gradient(135deg, #e53935, #b71c1c);
+  color: white;
+  padding: 14px 38px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  box-shadow:
+    0 10px 24px rgba(198, 40, 40, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  transition: 
+    transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+    box-shadow 0.25s ease,
+    gap 0.25s ease;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Button shimmer */
+.clients-more button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.clients-more button:hover::before {
+  left: 100%;
+}
+
+.clients-more button:hover {
+  transform: translateY(-3px);
+  gap: 12px;
+  box-shadow:
+    0 16px 36px rgba(198, 40, 40, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Button pulse on appear */
+@keyframes buttonPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.clients-more.reveal.active button {
+  animation: buttonPulse 0.6s ease;
+  animation-delay: 0.3s;
+}
+
+/* ---------- GRID DIAGONAL PULSE ---------- */
+
+.clients-grid {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft diagonal pulse overlay */
+.clients-grid::before {
+  content: "";
+  position: absolute;
+  inset: -25%;
+  background: radial-gradient(
+    circle at 0% 0%,
+    rgba(198, 40, 40, 0.16),
+    rgba(198, 40, 40, 0.08) 20%,
+    transparent 55%
+  );
+  animation: gridPulseDiagonal 6s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+
+/* Keep logos above the pulse */
+.clients-grid .client-logo {
+  position: relative;
+  z-index: 1;
+}
+
+/* Diagonal movement */
+@keyframes gridPulseDiagonal {
+  0% {
+    transform: translate(-35%, -35%);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translate(35%, 35%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-70%, -70%);
+    opacity: 0.35;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1024px) {
+  .clients-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+}
+
 @media (max-width: 768px) {
-  .clients-slider {
-    display: none;
+  .clients-header h2 {
+    font-size: 36px;
   }
 
   .clients-grid {
-    display: grid;
     grid-template-columns: repeat(2, minmax(120px, 1fr));
-    gap: 20px;
+    gap: 14px;
+  }
+
+  .clients-slider {
+    display: none;
   }
 
   .clients-more button {
@@ -207,14 +547,60 @@
     max-height: 64px;
   }
 
-  .reveal {
-    transform: translateY(24px);
+  .client-logo {
+    height: 100px;
+  }
+
+  /* Simplify animations on mobile */
+  .client-logo {
+    transform: translateY(40px) scale(0.9);
+  }
+
+  .client-logo.reveal.active {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .clients-header h2 {
+    font-size: 32px;
+  }
+
+  .clients-more button {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 24px;
   }
 }
 
 @media (hover: none) {
   .client-logo:hover {
     transform: none;
-    box-shadow: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  .client-logo:hover img {
+    transform: none;
+    filter: none; /* KEEP COLORS ON MOBILE */
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .client-logo,
+  .clients-slider,
+  .clients-more,
+  .clients-pill::before,
+  .client-logo::before,
+  .clients-more button::before,
+  .clients-track {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  .clients-grid::before {
+    animation: none;
   }
 }

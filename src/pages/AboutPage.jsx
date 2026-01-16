@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import "./AboutPage.css";
@@ -23,7 +22,7 @@ function ServiceCard({ icon, color, title, children, delay }) {
         className={`read-more-btn ${color}`}
         onClick={() => setOpen(!open)}
       >
-        {open ? "Read Less ←" : "Read More →"}
+        {open ? "Read Less ↑" : "Read More →"}
       </button>
     </div>
   );
@@ -32,35 +31,74 @@ function ServiceCard({ icon, color, title, children, delay }) {
 /* ================= ABOUT PAGE ================= */
 
 export default function AboutPage() {
+  const timelineRef = useRef(null);
+  const progressRef = useRef(null);
+  const itemsRef = useRef([]);
 
   useEffect(() => {
-    const timeline = document.querySelector(".timeline");
-    const items = document.querySelectorAll(".timeline-item");
+    const timeline = timelineRef.current;
+    const progress = progressRef.current;
+    const items = itemsRef.current;
 
-    if (!timeline) return;
+    if (!timeline || !progress || items.length === 0) return;
 
-    let hasAnimated = false;
+    const handleScroll = () => {
+      const timelineRect = timeline.getBoundingClientRect();
+      const timelineTop = timelineRect.top;
+      const timelineHeight = timelineRect.height;
+      const windowHeight = window.innerHeight;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated) {
-          hasAnimated = true;
+      // Calculate how much of the timeline is visible
+      const scrollProgress = Math.max(
+        0,
+        Math.min(
+          1,
+          (windowHeight - timelineTop - 200) / (timelineHeight - 400)
+        )
+      );
 
-          timeline.classList.add("animate");
+      // Update progress bar height
+      progress.style.height = `${scrollProgress * 100}%`;
 
-          items.forEach((item, index) => {
-            setTimeout(() => {
-              item.classList.add("active");
-            }, index * 500);
-          });
+      // Activate items based on their position relative to the progress line
+      items.forEach((item, index) => {
+        if (!item) return;
+
+        const dot = item.querySelector('.timeline-dot');
+        if (!dot) return;
+
+        const dotRect = dot.getBoundingClientRect();
+        const progressRect = progress.getBoundingClientRect();
+        
+        // Check if progress line has reached this dot
+        const dotTopRelativeToProgress = dotRect.top - progressRect.top;
+        const progressBottom = progressRect.height;
+
+        // Activate when progress line reaches the dot
+        if (progressBottom >= dotTopRelativeToProgress + 20) {
+          if (!item.classList.contains('active')) {
+            item.classList.add('active');
+          }
+        } else {
+          // Optional: deactivate if scrolling back up
+          if (item.classList.contains('active')) {
+            item.classList.remove('active');
+          }
         }
-      },
-      { threshold: 0.3 }
-    );
+      });
+    };
 
-    observer.observe(timeline);
+    // Initial check
+    handleScroll();
 
-    return () => observer.disconnect();
+    // Listen to scroll events
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   return (
@@ -186,17 +224,18 @@ export default function AboutPage() {
       <section className="aboutpage-timeline section">
         <div className="container">
           <h2 className="aboutpage-services-title reveal">Our Journey</h2>
-          <div className="timeline">
+          <div className="timeline" ref={timelineRef}>
             <div className="timeline-line">
-              <span className="timeline-progress" />
+              <span className="timeline-progress" ref={progressRef} />
             </div>
 
-            <div className="timeline-item reveal">
+            <div 
+              className="timeline-item" 
+              ref={el => itemsRef.current[0] = el}
+            >
               <span className="timeline-dot" />
               <div className="timeline-card"> 
-
-                <h4>2018 — Establishment and Initial Growth</h4>
-
+                <h4>2018 – Establishment and Initial Growth</h4>
                 <ul>
                   <li>
                     <strong>Description:</strong> Veera Concrete was founded by a team of
@@ -212,10 +251,13 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="timeline-item reveal">
+            <div 
+              className="timeline-item" 
+              ref={el => itemsRef.current[1] = el}
+            >
               <span className="timeline-dot" />
               <div className="timeline-card"> 
-                <h4>2019 — Expansion Phase</h4>
+                <h4>2019 – Expansion Phase</h4>
                 <ul>
                   <li>
                     <strong>Description:</strong> Veera Concrete expanded its operations, launching the third and fourth captive plants. The company continued to serve diverse clients, including corporates, developers, builders, contractors, and infrastructure projects.
@@ -224,10 +266,13 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="timeline-item reveal">
+            <div 
+              className="timeline-item" 
+              ref={el => itemsRef.current[2] = el}
+            >
               <span className="timeline-dot" />
               <div className="timeline-card"> 
-                <h4>2020-2021 — Transition to Commercial Operations</h4>
+                <h4>2020-2021 – Transition to Commercial Operations</h4>
                 <ul>
                   <li>
                     <strong>Description:</strong> Post-COVID lockdown, Veera Concrete transitioned from captive plants to commercial plants, marking a significant shift in its business model. The first and second commercial plants were launched in June and August 2020, respectively, followed by the third commercial plant in February 2021.
@@ -236,10 +281,13 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="timeline-item reveal">
+            <div 
+              className="timeline-item" 
+              ref={el => itemsRef.current[3] = el}
+            >
               <span className="timeline-dot" />
               <div className="timeline-card"> 
-                <h4>2022-2023 — Rapid Commercial Expansion</h4>
+                <h4>2022-2023 – Rapid Commercial Expansion</h4>
                 <ul>
                   <li>
                     <strong>Description:</strong> Veera Concrete continued its rapid expansion, launching the fourth (Bachupally), fifth (Rajendra Nagar), and sixth (Kokapet) commercial plants in 2022. In 2023, Veera added two more captive plants to its portfolio.
@@ -251,10 +299,13 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="timeline-item reveal">
+            <div 
+              className="timeline-item" 
+              ref={el => itemsRef.current[4] = el}
+            >
               <span className="timeline-dot" />
               <div className="timeline-card"> 
-                <h4>Ongoing — Customer Engagement and Continuous Improvement</h4>
+                <h4>Ongoing – Customer Engagement and Continuous Improvement</h4>
                 <ul>
                   <li>
                     <strong>Description:</strong> Veera Concrete values customer feedback and engagement to improve its services and offerings continuously.
